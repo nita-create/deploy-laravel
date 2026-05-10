@@ -65,19 +65,14 @@ sudo apt install -y nodejs
 sudo apt install -y nginx
 ```
 
-### Step 3: Upload Project Files
+### Step 3: Clone Project from GitHub
 
-On your local machine, upload the project to the application server:
-
-```bash
-# From your local machine
-scp -r C:\Users\NITA.CHROUN\Desktop\deploy\ pnc@192.168.109.146:/var/www/
-```
-
-Or use rsync for better performance:
+SSH into the application server and clone the project:
 
 ```bash
-rsync -avz C:\Users\NITA.CHROUN\Desktop\deploy/ pnc@192.168.109.146:/var/www/deploy/
+ssh pnc@192.168.109.146
+cd /var/www
+sudo git clone https://github.com/nita-create/deploy-laravel.git deploy
 ```
 
 ### Step 4: Set Up Backend (Laravel)
@@ -100,6 +95,12 @@ composer install --no-dev --optimize-autoloader
 ```bash
 cp .env.example .env
 nano .env
+```
+
+**Important**: Ensure the following line is uncommented and set to mysql:
+
+```env
+DB_CONNECTION=mysql
 ```
 
 Update the following values in `.env`:
@@ -436,7 +437,19 @@ sudo systemctl restart php8.2-fpm
 
 ```bash
 # Application Server
-ssh pnc@192.168.109.146
+ssh Git Commands
+
+```bash
+# Clone the repository
+cd /var/www
+sudo git clone https://github.com/nita-create/deploy-laravel.git deploy
+
+# Pull latest changes
+cd /var/www/deploy
+git pull origin master
+```
+
+### pnc@192.168.109.146
 
 # Database Server
 ssh pnc@192.168.108.234
